@@ -5,7 +5,7 @@ interface UserInfo {
   password: String;
   userName?: String;
 }
-export const signUpUser = (newUserInfo: UserInfo) => {
+export const SignUpUser = (newUserInfo: UserInfo) => {
   console.log(process.env.REACT_APP_API_URL);
 
   return axios

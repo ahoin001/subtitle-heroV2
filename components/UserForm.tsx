@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useState } from "react";
 
-import { Login } from "../util/UtilityFunctions";
+import { Login, SignUpUser } from "../util/UtilityFunctions";
 
 import {
   Box,
@@ -32,12 +32,12 @@ type UserFormValues = {
 };
 
 export const UserForm = ({ formType }: FormProps) => {
-  console.log(process.env.REACT_APP_API_URL);
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm<UserFormValues>();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (values) => {
@@ -47,10 +47,12 @@ export const UserForm = ({ formType }: FormProps) => {
     };
 
     if (formType === "signup") {
-      console.log(values);
+      SignUpUser(userInfo).then((res) => {
+        console.log("Response from signup: ", res);
+      });
     } else if (formType === "login") {
       Login(userInfo).then((res) => {
-        console.log(res);
+        console.log("Response from Login", res);
       });
     }
   };
@@ -58,7 +60,6 @@ export const UserForm = ({ formType }: FormProps) => {
   return (
     <Flex
       minH={"100%"}
-      // minW={"700px"}
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
