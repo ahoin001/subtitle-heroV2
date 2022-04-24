@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://rupuzekhqfdxhw:acfad043438bf7cd84963ace7c549c72abb9db414022c935aea13188943268b5@ec2-3-229-252-6.compute-1.amazonaws.com:5432/d84g4juq2b2o9c"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  projects  Project[]
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @updatedAt @map(name: "updated_at")
+
+  @@map(name: "users")
+}
+
+model Project {
+  id          Int        @id @default(autoincrement())
+  user        User       @relation(fields: [userId], references: [id])
+  userId      Int // relation scalar field  (used in the `@relation` attribute above)
+  title       String     @unique
+  videoURL    String
+  description String
+  cloudID     String
+  subtitles   Subtitle[]
+  // genre        String
+  createdAt   DateTime   @default(now()) @map(name: "created_at")
+  updatedAt   DateTime   @updatedAt @map(name: "updated_at")
+
+  @@map(name: "projects")
+}
+
+model Subtitle {
+  id         Int     @id @default(autoincrement())
+  project    Project @relation(fields: [projectId], references: [id])
+  projectId  Int // relation scalar field  (used in the `@relation` attribute above)
+  inTime     Int
+  outTime    Int
+  text       String
+  inTimeVTT  String
+  outTimeVTT String
+
+  @@map(name: "subtitles")
+}

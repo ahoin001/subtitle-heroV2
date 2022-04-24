@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { useAtom } from "jotai";
+import { userSignedInAtom } from "../../pages/index";
+
 import {
   Box,
   Container,
@@ -15,14 +18,17 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
+
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 export default function WithSubnavigation() {
+  // const [userAtom, setUserAtom] = useAtom(userSignedInAtom);
+
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Container maxW='8xl' >
+    <Container maxW="8xl">
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}

@@ -7,7 +7,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <Container maxW="8xl">{children}</Container>
+      <Container maxW="8xl" h={"90vh"}>{children}</Container>
       <Footer />
     </>
   );

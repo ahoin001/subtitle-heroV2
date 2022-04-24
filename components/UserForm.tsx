@@ -24,6 +24,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 type FormProps = {
   formType: string;
+  onSubmitToDB?: Function;
 };
 
 type UserFormValues = {
@@ -31,7 +32,7 @@ type UserFormValues = {
   password: string;
 };
 
-export const UserForm = ({ formType }: FormProps) => {
+export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
   const {
     handleSubmit,
     register,
@@ -40,16 +41,20 @@ export const UserForm = ({ formType }: FormProps) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: UserFormValues) => {
     const userInfo: UserFormValues = {
       email: values.email,
       password: values.password,
     };
 
     if (formType === "signup") {
-      SignUpUser(userInfo).then((res) => {
-        console.log("Response from signup: ", res);
-      });
+      try {
+        onSubmitToDB(userInfo).then((res) => {
+          console.log("Response$$$$$$ Signup: ", res);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     } else if (formType === "login") {
       Login(userInfo).then((res) => {
         console.log("Response from Login", res);
@@ -151,7 +156,7 @@ export const UserForm = ({ formType }: FormProps) => {
                   ""
                 )}
               </Text>
-              <Text align={"center"}>
+              <Box textAlign={"center"}>
                 {formType === "login" ? (
                   <>
                     <Text>Dont' have an account?</Text>{" "}
@@ -162,7 +167,7 @@ export const UserForm = ({ formType }: FormProps) => {
                 ) : (
                   ""
                 )}
-              </Text>
+              </Box>
             </Stack>
           </Stack>
         </Box>
