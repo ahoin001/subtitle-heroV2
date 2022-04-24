@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   Container,
   Stack,
@@ -15,7 +17,7 @@ import {
 
 export default function CallToActionWithVideo() {
   return (
-    <Container maxW={"7xl"}>
+    <Container maxW={"9xl"}>
       <Stack
         align={"center"}
         spacing={{ base: 8, md: 10 }}
@@ -59,9 +61,11 @@ export default function CallToActionWithVideo() {
             >
               Login
             </Button>
-            <Button rounded={"full"} size={"lg"} fontWeight={"normal"} px={6}>
-              Sign Up
-            </Button>
+            <Link href={"/SignUp"}>
+              <Button rounded={"full"} size={"lg"} fontWeight={"normal"} px={6}>
+                Sign Up
+              </Button>
+            </Link>
           </Stack>
         </Stack>
         <Flex

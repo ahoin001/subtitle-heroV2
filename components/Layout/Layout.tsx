@@ -1,10 +1,13 @@
+import { Container } from "@chakra-ui/react";
+
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+
 export default function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <Container maxW="8xl">{children}</Container>
       <Footer />
     </>
   );

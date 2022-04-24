@@ -1,5 +1,7 @@
+import Link from "next/link";
 import {
   Box,
+  Container,
   Flex,
   Text,
   IconButton,
@@ -7,8 +9,7 @@ import {
   Stack,
   HStack,
   Collapse,
-  Icon,
-  Link,
+  Link as ChakraLink,
   useColorMode,
   useColorModeValue,
   useBreakpointValue,
@@ -21,7 +22,7 @@ export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <>
+    <Container maxW='8xl' >
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -79,26 +80,28 @@ export default function WithSubnavigation() {
           >
             Sign In
           </Button>
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            // href={"#"}
-            _hover={{
-              bg: "pink.300",
-            }}
-          >
-            Sign Up
-          </Button>
+          <Link href={"/SignUp"}>
+            <Button
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"pink.400"}
+              // href={"#"}
+              _hover={{
+                bg: "pink.300",
+              }}
+            >
+              Sign Up
+            </Button>
+          </Link>
         </Stack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
         <MobileNavLinks />
       </Collapse>
-    </>
+    </Container>
   );
 }
 
@@ -111,7 +114,8 @@ const DesktopNavLinks = () => {
     <HStack spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
-          <Link
+          <ChakraLink
+            as={Link}
             p={2}
             href={navItem.href ?? "#"}
             fontSize={"sm"}
@@ -123,7 +127,7 @@ const DesktopNavLinks = () => {
             }}
           >
             {navItem.label}
-          </Link>
+          </ChakraLink>
         </Box>
       ))}
     </HStack>
@@ -178,9 +182,9 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <ChakraLink as={Link} key={child.label} py={2} href={child.href}>
                 {child.label}
-              </Link>
+              </ChakraLink>
             ))}
         </Stack>
       </Collapse>
@@ -200,6 +204,7 @@ interface NavItem {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Home",
+    href: "/",
   },
   {
     label: "Dashboard",
