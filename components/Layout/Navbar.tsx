@@ -86,7 +86,7 @@ export default function WithSubnavigation() {
           >
             Sign In
           </Button>
-          <Link href={"/SignUp"}>
+          <Link href={"/SignUpForm"}>
             <Button
               display={{ base: "none", md: "inline-flex" }}
               fontSize={"sm"}
@@ -122,9 +122,9 @@ const DesktopNavLinks = () => {
         <Box key={navItem.label}>
           <ChakraLink
             as={Link}
-            p={2}
+            p={1}
             href={navItem.href ?? "#"}
-            fontSize={"sm"}
+            fontSize={"lg"}
             fontWeight={500}
             color={linkColor}
             _hover={{
@@ -217,6 +217,6 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Add Project",
-    href: "#",
+    href: "/AddProject",
   },
 ];

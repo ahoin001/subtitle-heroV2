@@ -2,8 +2,6 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useState } from "react";
 
-import { Login, SignUpUser } from "../util/UtilityFunctions";
-
 import {
   Box,
   Stack,
@@ -41,25 +39,16 @@ export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (values: UserFormValues) => {
-    const userInfo: UserFormValues = {
-      email: values.email,
-      password: values.password,
-    };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("SUBMITTTTTT");
+    handleSubmit((data) => {
+      console.log(data);
 
-    if (formType === "signup") {
-      try {
-        onSubmitToDB(userInfo).then((res) => {
-          console.log("Response$$$$$$ Signup: ", res);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    } else if (formType === "login") {
-      Login(userInfo).then((res) => {
-        console.log("Response from Login", res);
+      onSubmitToDB(data).then((res) => {
+        console.log(res);
       });
-    }
+    })();
   };
 
   return (
@@ -71,7 +60,7 @@ export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
     >
       <Stack spacing={8} mx={"auto"} width={"xl"} maxW="xl" py={12} px={2}>
         <Heading fontSize={"4xl"} textAlign={"center"}>
-          Create An Account
+          {formType === "signup" ? "Create An Account" : "Welcome Back"}
         </Heading>
 
         <Box
@@ -81,7 +70,7 @@ export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
           p={8}
         >
           <Stack spacing={4}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={onSubmit}>
               <FormControl id="email" isRequired>
                 <FormLabel htmlFor="email">Email address</FormLabel>
                 <Input
@@ -91,7 +80,7 @@ export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
                   })}
                 />
                 <FormErrorMessage>
-                  {errors.password && errors.password.message}
+                  {errors.email && errors.email.message}
                 </FormErrorMessage>
               </FormControl>
 
@@ -105,7 +94,7 @@ export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
                     })}
                   />
                   <FormErrorMessage>
-                    {errors.email && errors.email.message}
+                    {errors.password && errors.password.message}
                   </FormErrorMessage>
                   <InputRightElement h={"full"}>
                     <Button
@@ -144,7 +133,7 @@ export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
 
             <Stack pt={6}>
               {}
-              <Text align={"center"}>
+              <Box textAlign={"center"}>
                 {formType === "signup" ? (
                   <>
                     <Text>Already a user?</Text>{" "}
@@ -155,12 +144,12 @@ export const UserForm = ({ formType, onSubmitToDB }: FormProps) => {
                 ) : (
                   ""
                 )}
-              </Text>
+              </Box>
               <Box textAlign={"center"}>
                 {formType === "login" ? (
                   <>
                     <Text>Dont' have an account?</Text>{" "}
-                    <ChakraLink as={Link} href={"/SignUp"}>
+                    <ChakraLink as={Link} href={"/SignUpForm"}>
                       <Text color={"blue.400"}>Sign Up</Text>
                     </ChakraLink>
                   </>

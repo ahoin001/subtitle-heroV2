@@ -42,10 +42,10 @@ export default function CallToActionWithVideo() {
             Subtitle Hero is an all in one web app to manage videos, subtitle
             videos, and download finished subtitles in an ready to use format
           </Text>
-          <Text color={"gray.500"}>
+          <Box color={"gray.500"}>
             Make an account or sign in with the account{" "}
             <Text>Email: demo@demo.com </Text> <Text>Password: demo</Text>
-          </Text>
+          </Box>
           <Stack
             spacing={{ base: 4, sm: 6 }}
             direction={{ base: "column", sm: "row" }}
@@ -61,7 +61,7 @@ export default function CallToActionWithVideo() {
             >
               Login
             </Button>
-            <Link href={"/SignUp"}>
+            <Link href={"/SignUpForm"}>
               <Button rounded={"full"} size={"lg"} fontWeight={"normal"} px={6}>
                 Sign Up
               </Button>
