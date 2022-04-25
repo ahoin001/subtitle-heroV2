@@ -24,7 +24,7 @@ type ProjectFormValues = {
   videoFile: File;
 };
 
-export const ProjectForm = () => {
+export const ProjectForm = ({ handleAddProjectToDB }) => {
   const {
     handleSubmit,
     register,
@@ -32,12 +32,17 @@ export const ProjectForm = () => {
   } = useForm<ProjectFormValues>();
 
   const onSubmit = (values: ProjectFormValues) => {
-    const projectInfo: ProjectFormValues = {
-      title: values.title,
-      description: values.description,
-      genre: values.genre,
-      videoFile: values.videoFile,
-    };
+    let data = new FormData();
+
+    data.append("title", values.title);
+    data.append("description", values.description);
+    data.append("videoFile", values.videoFile[0]);
+
+    // data.append('genre', genre);
+
+    handleAddProjectToDB(data).then((res) => {
+      console.log("RES FROM CLIENT SUBMIT: ", res);
+    });
   };
 
   return (
@@ -59,7 +64,7 @@ export const ProjectForm = () => {
           p={8}
         >
           <Stack spacing={4}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
               <FormControl id="title" isRequired>
                 <FormLabel htmlFor="title">Title:</FormLabel>
                 <Input

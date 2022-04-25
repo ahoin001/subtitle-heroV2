@@ -217,6 +217,6 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Add Project",
-    href: "/AddProject",
+    href: "/AddProjectForm",
   },
 ];
