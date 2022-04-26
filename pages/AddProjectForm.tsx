@@ -1,7 +1,8 @@
 import { ProjectForm } from "../components/ProjectForm";
-import useSWR from "swr";
+
 import Router from "next/router";
 import axios from "axios";
+import { Spinner } from "@chakra-ui/react";
 
 type ProjectFormValues = {
   title: string;
@@ -9,6 +10,11 @@ type ProjectFormValues = {
   genre?: string;
   videoFile: File;
 };
+
+// * May use react-query type package for requests, but for now everything works fine
+
+let responseFromApi;
+
 const addProjectToDBRequest = async (projectInfo) => {
   try {
     // * Display the form values
@@ -16,17 +22,7 @@ const addProjectToDBRequest = async (projectInfo) => {
     //   console.log("FORMDATA VALUES: ", value);
     // }
 
-    // const fetcher = async () => {
-    //   await axios("/api/AddProject", {
-    //     method: "POST",
-    //     headers: { "Content-Type": `multipart/form-data` },
-    //     data: projectInfo,
-    //   });
-    // };
-
-    // const { data, error } = useSWR("/api/user", fetcher);
-
-    const responseFromApi = await axios("/api/AddProject", {
+    responseFromApi = await axios("/api/AddProject", {
       method: "POST",
       headers: { "Content-Type": `multipart/form-data` },
       data: projectInfo,
@@ -34,7 +30,7 @@ const addProjectToDBRequest = async (projectInfo) => {
 
     console.log(responseFromApi);
 
-    await Router.push("/");
+    // await Router.push("/");
   } catch (error) {
     console.error(error);
   }

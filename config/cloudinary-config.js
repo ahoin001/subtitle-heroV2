@@ -1,9 +1,9 @@
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-    cloud_name: "damclaohv",
-    api_key: "357812489313368",
-    api_secret: "BN_PH_5aGxM9bI-eMB9HXHIxR10"
-  });
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-export default cloudinary
+export default cloudinary;
