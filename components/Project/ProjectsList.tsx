@@ -44,9 +44,10 @@ export const ProjectsList = () => {
   return (
     <SimpleGrid
       bgColor={"blue.300"}
-      w="full"
-      minChildWidth="350px"
+    //   w="full"
+      minChildWidth={{ base: '250px', md: '340px', lg: '386px' }}
       gap={"5"}
+      overflow={"hidden"}
     >
       {isFetching ? (
         <Spinner />

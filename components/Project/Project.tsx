@@ -3,6 +3,7 @@ import Link from "next/link";
 
 // import { Article, Header } from "./Project-Styles.jsx";
 import { Box, Heading } from "@chakra-ui/react";
+import {ProjectVideoContainer} from './ProjectVideoContainer'
 
 // ! Videos appear as blank white
 
@@ -33,9 +34,9 @@ export const Project = ({ project }) => {
 
   return (
     <>
-      <Box>
+      <ProjectVideoContainer>
         <video
-          width={"400px"}
+        //   width={"400px"}
           src={`${project.videoURL}`}
           typeof="video/mp4"
           ref={videoRef}
@@ -46,6 +47,7 @@ export const Project = ({ project }) => {
         />
 
         <Box>
+            {/* TODO should link to project detail page dynamically */}
           <Heading>
             <a className="text-primary-900 no-underline" href="#">
               {project.title}
@@ -54,7 +56,7 @@ export const Project = ({ project }) => {
 
           <p>{project.description}</p>
         </Box>
-      </Box>
+      </ProjectVideoContainer>
     </>
   );
 };
