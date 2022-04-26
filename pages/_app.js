@@ -1,17 +1,23 @@
 import "../styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import { Provider } from "jotai";
+// import { Provider } from "jotai";
+
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import Layout from "../components/Layout/Layout";
 
 function MyApp({ Component, pageProps }) {
+  const queryClient = new QueryClient();
+
   return (
     <ChakraProvider>
-      <Provider>
+      <QueryClientProvider client={queryClient}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </Provider>
+        <ReactQueryDevtools initialIsOpen />
+      </QueryClientProvider>
     </ChakraProvider>
   );
 }

@@ -8,7 +8,7 @@ export default function Layout({ children }) {
     <>
       <Navbar />
       <Container maxW="8xl" h={"90vh"}>{children}</Container>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

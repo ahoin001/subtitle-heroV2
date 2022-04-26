@@ -214,6 +214,7 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Dashboard",
+    href: "/UserDashboard",
   },
   {
     label: "Add Project",
