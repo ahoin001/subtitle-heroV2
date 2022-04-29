@@ -1,21 +1,47 @@
-import { ProjectsList } from "../components/Project/ProjectsList";
+import { useQuery } from "react-query";
+import axios from "axios";
 
-import { Box, Flex, Heading, Stack, useColorModeValue } from "@chakra-ui/react";
+import { ProjectsList } from "../components/Project/ProjectsList";
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Spinner,
+  Stack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 const UserDashboard = () => {
+  // TODO make it dynamice to accept userid and retrieve their projects
+  const { isLoading, error, data, isFetching } = useQuery(
+    "projectsFromUser",
+    async () => await axios.get("/api/GetProjects")
+  );
+
+  if (isLoading) {
+    return (
+      <Center minH={"100%"}>
+        <Spinner boxSize={64} thickness="4px" color="pink.400" />
+      </Center>
+    );
+  }
+
   return (
-    <Flex
+    <Box
       minH={"100%"}
       //   align={"center"}
       //   justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Stack bgColor={"purple.100"} w={"full"} alignItems={"center"} p={8}>
-        <Heading> Your Projects</Heading>
+        <>
+          <Heading> Your Projects</Heading>
 
-        <ProjectsList />
+          <ProjectsList allProjects={data.data} />
+        </>
       </Stack>
-    </Flex>
+    </Box>
   );
 };
 

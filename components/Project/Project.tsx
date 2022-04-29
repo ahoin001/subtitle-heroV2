@@ -2,8 +2,8 @@ import { useRef } from "react";
 import Link from "next/link";
 
 // import { Article, Header } from "./Project-Styles.jsx";
-import { Box, Heading } from "@chakra-ui/react";
-import {ProjectVideoContainer} from './ProjectVideoContainer'
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { ProjectVideoContainer } from "./ProjectVideoContainer";
 
 // ! Videos appear as blank white
 
@@ -36,7 +36,7 @@ export const Project = ({ project }) => {
     <>
       <ProjectVideoContainer>
         <video
-        //   width={"400px"}
+          //   width={"400px"}
           src={`${project.videoURL}`}
           typeof="video/mp4"
           ref={videoRef}
@@ -47,14 +47,10 @@ export const Project = ({ project }) => {
         />
 
         <Box>
-            {/* TODO should link to project detail page dynamically */}
-          <Heading>
-            <a className="text-primary-900 no-underline" href="#">
-              {project.title}
-            </a>
-          </Heading>
+          {/* TODO should link to project detail page dynamically */}
+          <Heading>{project.title}</Heading>
 
-          <p>{project.description}</p>
+          <Text textAlign={"center"}>{project.description}</Text>
         </Box>
       </ProjectVideoContainer>
     </>
