@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/SignUpForm.tsx"  ],
+, "pages/SignUpForm.tsx", "components/Subtitle/SubtitleFunctions.jsx", "pages/ProjectPage.jsx"  ],
   "exclude": [
     "node_modules"
   ]
