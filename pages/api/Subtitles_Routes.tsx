@@ -3,14 +3,25 @@ import prisma from "../../lib/prisma";
 export default async (req, res) => {
   console.log("====================================");
   console.log(req.method);
+  console.log("====================================");
   switch (req.method) {
     case "GET":
-      console.log("====================================");
-      console.log("The REQ From Get Subtitles: ", req);
+      // TODO Add a 'where' filter to only return subtitles of specific project by project id
+      try {
+        const theSubtitlesFromThisProject = await prisma.subtitle.findMany({
+          where: { projectId: 1 },
+        });
 
-      // TODO Add a 'where' filter to only return subtitles of specific project
-      // const retrievedSubtitles = await prisma.subtitle.findMany();
-      // res.json(retrievedSubtitles);
+        console.log("====================================");
+        console.log("Retrieved Subtitles: ", theSubtitlesFromThisProject);
+        console.log("====================================");
+
+        res.json(theSubtitlesFromThisProject);
+      } catch (error) {
+        console.log("====================================");
+        console.log(error);
+        console.log("====================================");
+      }
       break;
 
     case "POST":
@@ -18,8 +29,6 @@ export default async (req, res) => {
       console.log("The REQ From POST Subtitles: ", req.body);
 
       const { inTime, outTime, text, inTimeVTT, outTimeVTT } = req.body;
-
-      console.log("====================================");
 
       try {
         const createdSubtitle = await prisma.subtitle.create({
@@ -34,15 +43,15 @@ export default async (req, res) => {
             },
           },
         });
+        console.log("====================================");
         console.log("Created Subtitle: ", createdSubtitle);
+        res.json(createdSubtitle);
+        console.log("====================================");
       } catch (error) {
         console.log("====================================");
         console.log(error);
         console.log("====================================");
       }
-
-      // res.json(createdSubtitle);
-      // console.log("Made it to route!");
 
       break;
     default:
