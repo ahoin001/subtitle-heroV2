@@ -41,11 +41,11 @@ model Subtitle {
   id         Int     @id @default(autoincrement())
   project    Project @relation(fields: [projectId], references: [id])
   projectId  Int // relation scalar field  (used in the `@relation` attribute above)
-  inTime     Int
-  outTime    Int
+  inTime     Decimal
+  outTime    Decimal
   text       String
   inTimeVTT  String
   outTimeVTT String
 
-  @@map(name: "subtitles")
+  // @@map(name: "subtitles")
 }

@@ -1,5 +1,12 @@
+import { useState } from "react";
+import axios from "axios";
 import { Box, Container, Heading, VStack, Button } from "@chakra-ui/react";
-import { useState, useRef } from "react";
+
+import {
+  timeToVTT,
+  vttToSeconds,
+} from "../components/Subtitle/SubtitleUtilityFunctions";
+
 import { CustomModal } from "../components/UI Components/CustomModal/Modal";
 
 const ProjectStation = () => {
@@ -16,15 +23,17 @@ const ProjectStation = () => {
     download: [],
   });
 
+  const genericSync = (event) => {
+    const { name, value } = event.target;
+    setSubTitleState({ ...subTitleState, [name]: value });
+  };
+
   const createSub = () => {
     let video = document.getElementById("video");
     let tracks = video.textTracks;
-    // let button = document.getElementById("creation-button");
 
     // if inTime has not been defined, create a new cue with startTime set to current video time
     if (subTitleState.subInit === false) {
-      //   let inTime = video.currentTime;
-
       let inTime = video.currentTime;
 
       console.log(
@@ -67,6 +76,68 @@ const ProjectStation = () => {
     }
   };
 
+  const saveSubtitle = async () => {
+    // ? Activates chrome debug for react
+    // debugger;
+
+    let tracks = document.querySelector("video").textTracks;
+    let video = document.getElementById("video");
+    let cuesLength = tracks[0].cues.length;
+
+    console.log("THE TRACK CUE THING: ", tracks);
+
+    // * Set Subtitle info
+    let textToSave = subTitleState.subtitleToSave;
+    let inVTT = timeToVTT(subTitleState.inTime);
+    let outVTT = timeToVTT(subTitleState.outTime);
+
+    // ? Define body to fill the VTTCue and also send to Database
+    const subtitleInformation = {
+      inTime: subTitleState.inTime,
+      outTime: subTitleState.outTime,
+      text: textToSave,
+      inTimeVTT: inVTT,
+      outTimeVTT: outVTT,
+    };
+
+    // ? ENDTIME MUST BE FIRST OR SELECTING LAST CUE WON"T WORK
+    // ? CUES ARE AUTOMATICALLY SORTED BY START TIME, CHANGING START TIME WILL POTENTIALLY MOVE LAST CUE MAKING GETTER LOGIC ERROR
+    tracks[0].cues[cuesLength - 1].text = textToSave;
+    tracks[0].cues[cuesLength - 1].endTime = subtitleInformation.outTime;
+    tracks[0].cues[cuesLength - 1].startTime = subtitleInformation.inTime;
+
+    // console.log('THE CUE TRACK AFTER CHANGING WHERE I MAKE IT: ', tracks[0].cues[cuesLength - 1])
+
+    // clear modal text
+    document.getElementById("this-sub-text").value = "";
+
+    // * Post request to push current subtitle to the database
+    // * If successful then display to client
+
+    try {
+      let savedSubtitle = await axios.post(
+        `api/Subtitles_Routes`,
+        subtitleInformation
+      );
+
+      console.log("SAVED SUBTITLE: ", savedSubtitle.data);
+
+      setSubTitleState({
+        ...subTitleState,
+        subtitles: [...subTitleState.subtitles, savedSubtitle.data],
+        inTimeVTT: inVTT,
+        outTimeVTT: outVTT,
+      });
+      setShouldAddSub(true);
+      setIsModalOpen(false);
+      video.play();
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsModalOpen(false);
+  };
+
   return (
     <Container maxW={"container.xl"}>
       <VStack>
@@ -99,7 +170,14 @@ const ProjectStation = () => {
         </video>
       </VStack>
 
-      {isModalOpen && <CustomModal modalToggle={setIsModalOpen} />}
+      {isModalOpen && (
+        <CustomModal
+          modalToggle={setIsModalOpen}
+          saveSubtitle={saveSubtitle}
+          subtitleOperation={"create"}
+          onTextChange={genericSync}
+        />
+      )}
     </Container>
   );
 };

@@ -3,7 +3,12 @@ import axios from "axios";
 
 import { Box, Heading, VStack, Textarea, Button } from "@chakra-ui/react";
 
-export const CustomModal = ({ modalToggle }) => {
+export const CustomModal = ({
+  modalToggle,
+  reqType,
+  saveSubtitle,
+  onTextChange,
+}) => {
   return (
     <>
       {/* Backdrop for modal */}
@@ -37,6 +42,7 @@ export const CustomModal = ({ modalToggle }) => {
               placeholder="Enter subtitle here..."
               name="subtitleToSave"
               id="this-sub-text"
+              onChange={(e)=>onTextChange(e)}
             />
 
             <Box>
@@ -50,6 +56,7 @@ export const CustomModal = ({ modalToggle }) => {
                   background: "green.300",
                   color: "gray.5=900",
                 }}
+                onClick={() => saveSubtitle()}
               >
                 Submit
               </Button>
