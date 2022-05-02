@@ -1,17 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Box,
-  Container,
-  Heading,
-  VStack,
-  Button,
-  Table,
-  Spinner,
-} from "@chakra-ui/react";
-
-import { Subtitle } from "../components/Subtitle/Subtitle";
-import { SubtitleTable } from "../components/UI Components/SubtitleTable";
+import { Box, Container, Heading, VStack, Button } from "@chakra-ui/react";
 
 import {
   timeToVTT,
@@ -24,7 +13,6 @@ const ProjectStation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shouldRefetch, setShouldRefetch] = useState(true);
   const [subtitleRows, setSubtitleRows] = useState([]);
-  const [shouldAddSub, setShouldAddSub] = useState();
 
   const [subTitleState, setSubTitleState] = useState({
     subInit: false,
@@ -36,18 +24,6 @@ const ProjectStation = () => {
     subtitles: [],
     download: [],
   });
-
-//   Whenever a new subtitle is added, rerender table with added sub
-  useEffect(() => {
-    // ? Get the most recent added subtitle after user submits subtitle and lists it
-
-    if (shouldAddSub) {
-      console.log("BEFORE LISTING: ", subTitleState);
-      listOneSubtitle(
-        subTitleState.subtitles[subTitleState.subtitles.length - 1]
-      );
-    }
-  }, [shouldAddSub]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -69,7 +45,7 @@ const ProjectStation = () => {
 
             setSubTitleState({
               ...subTitleState,
-              subtitles: response.data,
+              subtitles: response.data.results,
             });
 
             setShouldRefetch(false);
@@ -85,23 +61,6 @@ const ProjectStation = () => {
 
     fetchData();
   }, [shouldRefetch]);
-
-  const listOneSubtitle = (mostRecentSavedSubtitle) => {
-    let newSub = (
-      <Subtitle
-        key={mostRecentSavedSubtitle.id}
-        Subtitle={mostRecentSavedSubtitle}
-        // onDeleteClick={deleteSubtitle}
-        // onSaveEdit={submitChanges}
-        // refreshTable={setShouldRefetch}
-      />
-    );
-
-    setSubtitleRows([...subtitleRows, newSub]);
-    setShouldAddSub(false);
-
-    listSubtitles();
-  };
 
   const listSubtitles = () => {
     // ? Activates chrome debug for react
@@ -129,20 +88,16 @@ const ProjectStation = () => {
     subTitleState.subtitles.sort((a, b) => a.inTime - b.inTime);
 
     // * Add cues on track from sorted subtitles array, otherwise VTTCue will sort it in its own messy way that conflicts with logic
-    let theSubtitleRows = subTitleState.subtitles.map((subtitleObject) => {
-      let cue = new VTTCue(
-        subtitleObject.inTime,
-        subtitleObject.outTime,
-        subtitleObject.text
-      );
+    let theSubtitleRows = subTitleState.subtitles.map((sub) => {
+      let cue = new VTTCue(sub.inTime, sub.outTime, sub.text);
       tracks[0].addCue(cue);
 
       return (
         <Subtitle
-          key={subtitleObject.id}
-          Subtitle={subtitleObject}
-          //   onDeleteClick={deleteSubtitle}
-          //   onSaveEdit={submitChanges}
+          key={sub.id}
+          Subtitle={sub}
+          onDeleteClick={deleteSubtitle}
+          onSaveEdit={submitChanges}
           refreshTable={setShouldRefetch}
         />
       );
@@ -296,12 +251,6 @@ const ProjectStation = () => {
             default
           />
         </video>
-
-        {subtitleRows.length ? (
-          <SubtitleTable>{subtitleRows}</SubtitleTable>
-        ) : (
-          <Spinner />
-        )}
       </VStack>
 
       {isModalOpen && (
