@@ -6,7 +6,6 @@ import {
   Heading,
   VStack,
   Button,
-  Table,
   Spinner,
 } from "@chakra-ui/react";
 
@@ -21,10 +20,10 @@ import {
 import { CustomModal } from "../components/UI Components/CustomModal/Modal";
 
 const ProjectStation = () => {
+  const [shouldAddSub, setShouldAddSub] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shouldRefetch, setShouldRefetch] = useState(true);
   const [subtitleRows, setSubtitleRows] = useState([]);
-  const [shouldAddSub, setShouldAddSub] = useState();
 
   const [subTitleState, setSubTitleState] = useState({
     subInit: false,
@@ -37,12 +36,9 @@ const ProjectStation = () => {
     download: [],
   });
 
-//   Whenever a new subtitle is added, rerender table with added sub
+  //   Whenever a new subtitle is added, rerender table with added sub
   useEffect(() => {
-    // ? Get the most recent added subtitle after user submits subtitle and lists it
-
     if (shouldAddSub) {
-      console.log("BEFORE LISTING: ", subTitleState);
       listOneSubtitle(
         subTitleState.subtitles[subTitleState.subtitles.length - 1]
       );
@@ -54,7 +50,7 @@ const ProjectStation = () => {
       // console.log('Running Sub Creation Effect')
 
       if (shouldRefetch) {
-        // console.log('INSIDE Effect IF')
+        // console.log('Refecthing subtitles')
 
         // * Get subtitles that belong to project
         axios
@@ -104,9 +100,6 @@ const ProjectStation = () => {
   };
 
   const listSubtitles = () => {
-    // ? Activates chrome debug for react
-    // debugger;
-
     let tracks = document.querySelector("video").textTracks;
 
     // * Remove video cues before adding all from exsisiting subtitles
@@ -119,7 +112,6 @@ const ProjectStation = () => {
       for (let i = 0; i <= lengthOfCueList; i++) {
         // Keep removing first cue until there is no more
         if (tracks[0].cues[0]) {
-          // console.log('IN FOR LOOP, CUE BEING REMOVED : ', tracks[0].cues[0])
           tracks[0].removeCue(tracks[0].cues[0]);
         }
       }
