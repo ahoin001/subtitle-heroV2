@@ -1,17 +1,17 @@
 import prisma from "../../../lib/prisma";
 
 export default async (req, res) => {
-  const { pid } = req.query
+  const { projectId } = req.query;
   console.log("====================================");
   console.log(req.method);
-  console.log(pid)
+  console.log(projectId);
   console.log("====================================");
   switch (req.method) {
     case "GET":
       // TODO Add a 'where' filter to only return subtitles of specific project by project id
       try {
         const theSubtitlesFromThisProject = await prisma.subtitle.findMany({
-          where: { projectId: 1 },
+          where: { projectId: parseInt(projectId) },
         });
 
         console.log("====================================");

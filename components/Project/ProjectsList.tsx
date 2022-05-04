@@ -50,6 +50,7 @@ export const ProjectsList = ({ allProjects }) => {
           return (
             // When link clicked, pass the project object information
             <Link
+              key={project.id}
               href={{ pathname: `/ProjectPage/${project.id}`, query: project }}
               passHref
             >

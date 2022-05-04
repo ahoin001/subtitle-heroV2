@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import Link from "next/link";
 
 // import { Article, Header } from "./Project-Styles.jsx";
 import { Box, Heading, Text } from "@chakra-ui/react";
@@ -17,7 +16,7 @@ interface PropType {
 }
 
 // React.FowardRef was attempt to use Nextjs Link component with functional component child
-export const Project = React.forwardRef(({ project }: PropType) => {
+export const Project = ({ project }: PropType) => {
   const videoRef = useRef(null);
 
   const hoverplayVideo = (e) => {
@@ -60,4 +59,4 @@ export const Project = React.forwardRef(({ project }: PropType) => {
       </ProjectVideoContainer>
     </>
   );
-});
+};

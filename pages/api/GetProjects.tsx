@@ -7,7 +7,7 @@ interface UserInfo {
 
 export default async function handle(req, res) {
   console.log("====================");
-  console.log("The REQ From Get Projects: ", req);
+  // console.log("The REQ From Get Projects: ", req);
 
   //   const session = await getSession({ req });
   const result = await prisma.project.findMany();

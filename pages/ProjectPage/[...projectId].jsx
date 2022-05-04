@@ -61,7 +61,7 @@ const ProjectStation = () => {
 
         // * Get subtitles that belong to project
         axios
-          .get(`http://localhost:3000/api/Subtitles/Subtitles_Routes/${id}`)
+          .get(`http://localhost:3000/api/Subtitles/${id}`)
           .then((response) => {
             console.log("====================================");
             console.log(
@@ -204,9 +204,6 @@ const ProjectStation = () => {
   };
 
   const saveSubtitle = async () => {
-    // ? Activates chrome debug for react
-    // debugger;
-
     let tracks = document.querySelector("video").textTracks;
     let video = document.getElementById("video");
     let cuesLength = tracks[0].cues.length;
@@ -233,9 +230,6 @@ const ProjectStation = () => {
     tracks[0].cues[cuesLength - 1].endTime = subtitleInformation.outTime;
     tracks[0].cues[cuesLength - 1].startTime = subtitleInformation.inTime;
 
-    // console.log('THE CUE TRACK AFTER CHANGING WHERE I MAKE IT: ', tracks[0].cues[cuesLength - 1])
-
-    // clear modal text
     document.getElementById("this-sub-text").value = "";
 
     // * Post request to push current subtitle to the database

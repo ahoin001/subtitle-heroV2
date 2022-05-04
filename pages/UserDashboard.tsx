@@ -19,6 +19,8 @@ const UserDashboard = () => {
     async () => await axios.get("/api/GetProjects")
   );
 
+  const bg = useColorModeValue("gray.50", "gray.800");
+
   if (isLoading) {
     return (
       <Center minH={"100%"}>
@@ -32,7 +34,7 @@ const UserDashboard = () => {
       minH={"100%"}
       //   align={"center"}
       //   justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={bg}
     >
       <Stack bgColor={"purple.100"} w={"full"} alignItems={"center"} p={8}>
         <>
