@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import Link from "next/link";
 
 import { Project } from "./Project";
 
@@ -41,9 +42,22 @@ export const ProjectsList = ({ allProjects }) => {
       gap={"5"}
       overflow={"scroll"}
     >
+      <Link href={"/"} passHref>
+        HOME
+      </Link>
       {allProjects.map((project) => {
         {
-          return <Project project={project} />;
+          return (
+            // When link clicked, pass the project object information
+            <Link
+              href={{ pathname: `/ProjectPage/${project.id}`, query: project }}
+              passHref
+            >
+              <a>
+                <Project project={project} />
+              </a>
+            </Link>
+          );
         }
       })}
     </SimpleGrid>

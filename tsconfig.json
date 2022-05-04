@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -22,9 +18,11 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/SignUpForm.tsx", "components/Subtitle/SubtitleFunctions.jsx", "pages/ProjectPage.jsx"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "**/*.tsx",
+    "pages/SignUpForm.tsx",
+    "components/Subtitle/SubtitleFunctions.jsx",
+    "components/Project/Project",
+    "pages/ProjectPage/ProjectPage.jsx"
+  ],
+  "exclude": ["node_modules"]
 }

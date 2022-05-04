@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import {
   Box,
@@ -9,17 +10,23 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-import { Subtitle } from "../components/Subtitle/Subtitle";
-import { SubtitleTable } from "../components/UI Components/SubtitleTable";
+import { Subtitle } from "../../components/Subtitle/Subtitle";
+import { SubtitleTable } from "../../components/UI Components/SubtitleTable";
 
 import {
   timeToVTT,
   vttToSeconds,
-} from "../components/Subtitle/SubtitleUtilityFunctions";
+} from "../../components/Subtitle/SubtitleUtilityFunctions";
 
-import { CustomModal } from "../components/UI Components/CustomModal/Modal";
+import { CustomModal } from "../../components/UI Components/CustomModal/Modal";
 
 const ProjectStation = () => {
+  const router = useRouter();
+  const { id, title, description, videoURL } = router.query;
+  console.log("Project ================================");
+  console.log(router.query);
+  console.log("================================");
+
   const [shouldAddSub, setShouldAddSub] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shouldRefetch, setShouldRefetch] = useState(true);
@@ -54,7 +61,7 @@ const ProjectStation = () => {
 
         // * Get subtitles that belong to project
         axios
-          .get(`http://localhost:3000/api/Subtitles_Routes`)
+          .get(`http://localhost:3000/api/Subtitles/Subtitles_Routes/${id}`)
           .then((response) => {
             console.log("====================================");
             console.log(
@@ -275,9 +282,8 @@ const ProjectStation = () => {
 
         <video id="video" crossOrigin="anonymous" controls preload="metadata">
           <source
-            src={
-              "http://res.cloudinary.com/damclaohv/video/upload/v1615059847/subit/wc3nqgevi6veqr7ypxxs.mp4"
-            }
+            src={videoURL}
+            // src={project.videoURL}
           />
           <track
             id="my-subs"

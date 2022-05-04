@@ -1,8 +1,10 @@
-import prisma from "../../lib/prisma";
+import prisma from "../../../lib/prisma";
 
 export default async (req, res) => {
+  const { pid } = req.query
   console.log("====================================");
   console.log(req.method);
+  console.log(pid)
   console.log("====================================");
   switch (req.method) {
     case "GET":

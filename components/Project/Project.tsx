@@ -1,24 +1,29 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
 
 // import { Article, Header } from "./Project-Styles.jsx";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { ProjectVideoContainer } from "./ProjectVideoContainer";
 
-// ! Videos appear as blank white
+interface Project {
+  id: Number;
+  title: String;
+  videoURL: String;
+  description: String;
+  cloudId: String;
+}
+interface PropType {
+  project: Project;
+}
 
-// const Project = ({ projectInfo,...props }) => {
-export const Project = ({ project }) => {
+// React.FowardRef was attempt to use Nextjs Link component with functional component child
+export const Project = React.forwardRef(({ project }: PropType) => {
   const videoRef = useRef(null);
 
   const hoverplayVideo = (e) => {
-    // console.log(props.projectInfo)
-
     // References video with "vidRef" ref attribute, then plays the video
     videoRef.current.play();
     videoRef.current.currentTime = 0;
-
-    //     // console.log('================================ Props: ', props)
   };
 
   const hoverpauseVideo = () => {
@@ -55,4 +60,4 @@ export const Project = ({ project }) => {
       </ProjectVideoContainer>
     </>
   );
-};
+});
