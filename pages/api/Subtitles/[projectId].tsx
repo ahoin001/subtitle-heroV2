@@ -4,7 +4,7 @@ export default async (req, res) => {
   const { projectId } = req.query;
   console.log("====================================");
   console.log(req.method);
-  console.log(projectId);
+  console.log("Project ID: ", projectId);
   console.log("====================================");
   switch (req.method) {
     case "GET":

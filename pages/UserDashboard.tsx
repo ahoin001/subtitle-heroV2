@@ -14,9 +14,10 @@ import {
 
 const UserDashboard = () => {
   // TODO make it dynamice to accept userid and retrieve their projects
+  // TODO so need to apply an authenticaion and authorization soon. for now just user with id 1
   const { isLoading, error, data, isFetching } = useQuery(
     "projectsFromUser",
-    async () => await axios.get("/api/GetProjects")
+    async () => await axios.get(`/api/UserProjects/${1}`)
   );
 
   const bg = useColorModeValue("gray.50", "gray.800");

@@ -22,10 +22,11 @@ import { CustomModal } from "../../components/UI Components/CustomModal/Modal";
 
 const ProjectStation = () => {
   const router = useRouter();
-  const { id, title, description, videoURL } = router.query;
   console.log("Project ================================");
   console.log(router.query);
   console.log("================================");
+  // Get any needed info about project
+  const { id, title, description, videoURL } = router.query;
 
   const [shouldAddSub, setShouldAddSub] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,7 +75,6 @@ const ProjectStation = () => {
               ...subTitleState,
               subtitles: response.data,
             });
-
             setShouldRefetch(false);
           })
           .catch(function (error) {
@@ -129,6 +129,8 @@ const ProjectStation = () => {
 
     // * Add cues on track from sorted subtitles array, otherwise VTTCue will sort it in its own messy way that conflicts with logic
     let theSubtitleRows = subTitleState.subtitles.map((subtitleObject) => {
+      console.log("-----------------------------------------------");
+      console.log("OBJECT BEING USED FOR RETURNED FROM POST: ", subtitleObject);
       let cue = new VTTCue(
         subtitleObject.inTime,
         subtitleObject.outTime,
@@ -142,7 +144,7 @@ const ProjectStation = () => {
           Subtitle={subtitleObject}
           //   onDeleteClick={deleteSubtitle}
           //   onSaveEdit={submitChanges}
-          refreshTable={setShouldRefetch}
+          // refreshTable={setShouldRefetch}
         />
       );
     });
@@ -172,7 +174,6 @@ const ProjectStation = () => {
 
       console.log(cue);
 
-      //   *replaced with ref for now
       tracks[0].addCue(cue);
 
       setSubTitleState({
@@ -234,11 +235,18 @@ const ProjectStation = () => {
 
     // * Post request to push current subtitle to the database
     // * If successful then display to client
-
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    console.log("About to send post request");
     try {
       let savedSubtitle = await axios.post(
-        `api/Subtitles_Routes`,
-        subtitleInformation
+        `http://localhost:3000/api/Subtitles/${id}`,
+        JSON.stringify(subtitleInformation),
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       console.log("SAVED SUBTITLE: ", savedSubtitle.data);

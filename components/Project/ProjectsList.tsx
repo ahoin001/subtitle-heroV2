@@ -42,9 +42,6 @@ export const ProjectsList = ({ allProjects }) => {
       gap={"5"}
       overflow={"scroll"}
     >
-      <Link href={"/"} passHref>
-        HOME
-      </Link>
       {allProjects.map((project) => {
         {
           return (

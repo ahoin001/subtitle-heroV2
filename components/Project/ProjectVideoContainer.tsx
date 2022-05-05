@@ -6,7 +6,7 @@ export const ProjectVideoContainer = (props) => {
     <VStack
       alignItems={"center"}
       justify="center"
-      bgColor={"gray.200"}
+      bgColor={"gray.100"}
       overflow={"hidden"}
       borderRadius={"lg"}
       boxShadow={"dark-lg"}
