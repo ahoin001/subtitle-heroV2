@@ -1,6 +1,9 @@
+import axios from "axios";
+import { Subtitle } from "./Subtitle";
+
 export const timeToVTT = (num) => {
-//   console.log("INTIME TOVTT NUMBER IS: ", num);
-//   console.log("NUMBER IS TYPE: ", typeof num);
+  //   console.log("INTIME TOVTT NUMBER IS: ", num);
+  //   console.log("NUMBER IS TYPE: ", typeof num);
 
   // Also Converts to String
   let stringNum = num.toFixed(3);
@@ -34,4 +37,41 @@ export const vttToSeconds = (timeAsVTT) => {
   console.log("Time in Seconds: ", timeInSeconds);
 
   return timeInSeconds;
+};
+
+// TODO Change these functions to be able to be imported to slim the msubtitle creation component
+export const deleteProject = (projectId) => {
+  axios
+    .get(`http://localhost:3000/api/Subtitles/${id}`)
+    .then((response) => {
+      console.log("* Response after deleting project", response.data);
+      console.log("====================================");
+
+      setSubTitleState({
+        ...subTitleState,
+        subtitles: response.data,
+      });
+      setShouldRefetch(false);
+    })
+    .catch(function (error) {
+      console.log("FAILURE GETTING SUBTITLES OF PROJECT");
+      console.log(error);
+    });
+};
+
+export const listOneSubtitle = (mostRecentSavedSubtitle) => {
+  let newSub = (
+    <Subtitle
+      key={mostRecentSavedSubtitle.id}
+      Subtitle={mostRecentSavedSubtitle}
+      // onDeleteClick={deleteSubtitle}
+      // onSaveEdit={submitChanges}
+      // refreshTable={setShouldRefetch}
+    />
+  );
+
+  setSubtitleRows([...subtitleRows, newSub]);
+  setShouldAddSub(false);
+
+  listSubtitles();
 };

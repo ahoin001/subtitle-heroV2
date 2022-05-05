@@ -1,7 +1,7 @@
 import { Box, Td, Tr, Text, Button, HStack } from "@chakra-ui/react";
 import React from "react";
 
-export const Subtitle = ({ Subtitle }) => {
+export const Subtitle = ({ Subtitle, onDeleteClick }) => {
   return (
     <Tr>
       <Td p={4}>
@@ -31,6 +31,7 @@ export const Subtitle = ({ Subtitle }) => {
             Edit
           </Button>
           <Button
+            onClick={() => onDeleteClick(Subtitle.id)}
             bgColor={"red.100"}
             _hover={{ bgColor: "red.400", color: "white" }}
           >

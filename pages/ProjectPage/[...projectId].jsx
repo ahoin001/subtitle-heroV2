@@ -22,7 +22,6 @@ import { CustomModal } from "../../components/UI Components/CustomModal/Modal";
 
 const ProjectStation = () => {
   const router = useRouter();
-  console.log("Project ================================");
   console.log(router.query);
   console.log("================================");
   // Get any needed info about project
@@ -55,16 +54,11 @@ const ProjectStation = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      // console.log('Running Sub Creation Effect')
-
       if (shouldRefetch) {
-        // console.log('Refecthing subtitles')
-
         // * Get subtitles that belong to project
         axios
           .get(`http://localhost:3000/api/Subtitles/${id}`)
           .then((response) => {
-            console.log("====================================");
             console.log(
               "* Get Subtitles that belong to project",
               response.data
@@ -94,7 +88,7 @@ const ProjectStation = () => {
       <Subtitle
         key={mostRecentSavedSubtitle.id}
         Subtitle={mostRecentSavedSubtitle}
-        // onDeleteClick={deleteSubtitle}
+        onDeleteClick={deleteSubtitle}
         // onSaveEdit={submitChanges}
         // refreshTable={setShouldRefetch}
       />
@@ -109,7 +103,7 @@ const ProjectStation = () => {
   const listSubtitles = () => {
     let tracks = document.querySelector("video").textTracks;
 
-    // * Remove video cues before adding all from exsisiting subtitles
+    // * Remove video cues before adding all from existing subtitles
     if (tracks[0].cues === null) {
       return;
     } else if (tracks[0].cues.length) {
@@ -142,7 +136,7 @@ const ProjectStation = () => {
         <Subtitle
           key={subtitleObject.id}
           Subtitle={subtitleObject}
-          //   onDeleteClick={deleteSubtitle}
+          onDeleteClick={deleteSubtitle}
           //   onSaveEdit={submitChanges}
           // refreshTable={setShouldRefetch}
         />
@@ -265,6 +259,21 @@ const ProjectStation = () => {
     }
 
     setIsModalOpen(false);
+  };
+
+  const deleteSubtitle = (subtitleId) => {
+    axios
+      .delete(`http://localhost:3000/api/Subtitles/${subtitleId}`)
+      .then((response) => {
+        console.log("* Response after deleting project", response.data);
+        console.log("====================================");
+
+        setShouldRefetch(true);
+      })
+      .catch(function (error) {
+        console.log("FAILURE GETTING SUBTITLES OF PROJECT");
+        console.log(error);
+      });
   };
 
   return (
